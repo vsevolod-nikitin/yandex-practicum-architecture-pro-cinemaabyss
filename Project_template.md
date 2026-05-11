@@ -56,13 +56,13 @@
 Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
 
 Результаты тестирования
-![Результаты тестирования](reports/TestsReport.png)
+![Результаты тестирования](images/TestsReport.png)
 
 Состояние топиков
-![Состояние топиков](reports/KafkaSummary.png)
+![Состояние топиков](images/KafkaSummary.png)
 
 События фильмов
-![События фильмов](reports/MoviesEvents.png)
+![События фильмов](images/MoviesEvents.png)
 
 
 ## Задание 3
