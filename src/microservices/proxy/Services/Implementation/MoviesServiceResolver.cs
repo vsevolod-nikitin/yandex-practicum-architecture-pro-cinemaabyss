@@ -32,5 +32,17 @@ namespace CinemaAbyss.Proxy.Services.Implementation
         {
             return await _moviesService.GetAllMoviesAsync().ConfigureAwait(false);
         }
+
+        /// <inheritdoc/>
+        public async Task<MovieDto?> GetMovieByIdAsync(long id)
+        {
+            return await _moviesService.GetMovieByIdAsync(id).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
+        public async Task<MovieDto> CreateMovieAsync(MovieDto movie)
+        {
+            return await _moviesService.CreateMovieAsync(movie).ConfigureAwait(false);
+        }
     }
 }
