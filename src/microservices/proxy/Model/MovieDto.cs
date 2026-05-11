@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace CinemaAbyss.Proxy.Model
 {
@@ -8,28 +9,33 @@ namespace CinemaAbyss.Proxy.Model
     public sealed class MovieDto
     {
         /// <summary>
-        /// Идентификатор фильма.
+        /// Уникальный идентификатор фильма.
         /// </summary>
-        public int Id { get; init; }
+        [JsonPropertyName("id")]
+        public long Id { get; init; }
 
         /// <summary>
         /// Название фильма.
         /// </summary>
+        [JsonPropertyName("title")]
         public required string Title { get; init; }
 
         /// <summary>
         /// Описание фильма.
         /// </summary>
+        [JsonPropertyName("description")]
         public required string Description { get; init; }
 
         /// <summary>
-        /// Список жанров фильма.
+        /// Жанры фильма.
         /// </summary>
+        [JsonPropertyName("genres")]
         public Collection<string> Genres { get; init; } = [];
 
         /// <summary>
         /// Рейтинг фильма.
         /// </summary>
+        [JsonPropertyName("rating")]
         public double Rating { get; init; }
     }
 }

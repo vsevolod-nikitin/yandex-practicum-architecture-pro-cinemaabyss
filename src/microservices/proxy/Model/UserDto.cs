@@ -1,4 +1,6 @@
-﻿namespace CinemaAbyss.Proxy.Model
+﻿using System.Text.Json.Serialization;
+
+namespace CinemaAbyss.Proxy.Model
 {
     /// <summary>
     /// Информация о пользователе.
@@ -6,18 +8,21 @@
     public sealed class UserDto
     {
         /// <summary>
-        /// Идентификатор пользователя.
+        /// Уникальный идентификатор пользователя.
         /// </summary>
-        public int Id { get; init; }
+        [JsonPropertyName("id")]
+        public long Id { get; init; }
 
         /// <summary>
         /// Имя пользователя.
         /// </summary>
+        [JsonPropertyName("username")]
         public required string UserName { get; init; }
 
         /// <summary>
-        /// E-mail пользователя.
+        /// Email пользователя.
         /// </summary>
+        [JsonPropertyName("email")]
         public required string Email { get; init; }
     }
 }
