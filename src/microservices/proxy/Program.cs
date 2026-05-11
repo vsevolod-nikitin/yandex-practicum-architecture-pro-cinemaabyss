@@ -29,6 +29,7 @@ namespace CinemaAbyss.Proxy
                 app.MapOpenApi();
             }
 
+            app.MapGet("/health", () => Results.Ok(new { status = true }));
             app.MapControllers();
 
             app.Run();
