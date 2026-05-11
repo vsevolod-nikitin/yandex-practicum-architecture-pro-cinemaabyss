@@ -6,10 +6,9 @@ EXPOSE 8002
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/microservices/events/CinemaAbyss.Events/CinemaAbyss.Events.csproj", "src/microservices/events/CinemaAbyss.Events/"]
-RUN dotnet restore "./src/microservices/events/CinemaAbyss.Events/CinemaAbyss.Events.csproj"
+COPY ["CinemaAbyss.Events.csproj", "."]
+RUN dotnet restore "./CinemaAbyss.Events.csproj"
 COPY . .
-WORKDIR "/src/src/microservices/events/CinemaAbyss.Events"
 RUN dotnet build "./CinemaAbyss.Events.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

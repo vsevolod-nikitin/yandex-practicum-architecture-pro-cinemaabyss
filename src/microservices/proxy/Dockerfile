@@ -6,10 +6,9 @@ EXPOSE 8000
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/microservices/proxy/CinemaAbyss.Proxy/CinemaAbyss.Proxy.csproj", "src/microservices/proxy/CinemaAbyss.Proxy/"]
-RUN dotnet restore "./src/microservices/proxy/CinemaAbyss.Proxy/CinemaAbyss.Proxy.csproj"
+COPY ["CinemaAbyss.Proxy.csproj", "."]
+RUN dotnet restore "./CinemaAbyss.Proxy.csproj"
 COPY . .
-WORKDIR "/src/src/microservices/proxy/CinemaAbyss.Proxy"
 RUN dotnet build "./CinemaAbyss.Proxy.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
