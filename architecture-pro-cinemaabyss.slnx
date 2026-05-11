@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path="Project_template.md" />
     <Project Path="docker-compose.dcproj" Id="e8b3c6f8-9f84-4e77-9a3a-9a0b3f8e6f21">
       <Build />
     </Project>
