@@ -12,20 +12,20 @@ namespace CinemaAbyss.Events.Services
         /// </summary>
         /// <param name="eventDto">Информация о событии.</param>
         /// <returns>Результат.</returns>
-        Task<EventResponseDto> RegisterAsync(MovieEventDto eventDto);
+        Task<EventResponseDto> RegisterMovieEventAsync(MovieEventDto eventDto);
 
         /// <summary>
         /// Зарегистрировать событие.
         /// </summary>
         /// <param name="eventDto">Информация о событии.</param>
         /// <returns>Результат.</returns>
-        Task<EventResponseDto> RegisterAsync(UserEventDto eventDto);
+        Task<EventResponseDto> RegisterUserEventAsync(UserEventDto eventDto);
 
         /// <summary>
         /// Зарегистрировать событие.
         /// </summary>
         /// <param name="eventDto">Информация о событии.</param>
         /// <returns>Результат.</returns>
-        Task<EventResponseDto> RegisterAsync(PaymentEventDto eventDto);
+        Task<EventResponseDto> RegisterPaymentEventAsync(PaymentEventDto eventDto);
     }
 }

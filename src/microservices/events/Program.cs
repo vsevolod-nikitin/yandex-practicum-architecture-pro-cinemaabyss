@@ -40,6 +40,10 @@ namespace CinemaAbyss.Events
         /// <param name="configuration">Конфигурация функционала.</param>
         private static void RegisterServices(IServiceCollection services, ServiceConfiguration configuration)
         {
+            // Single
+            services.AddSingleton<IMessageBroker, MessageBroker>();
+
+            // Transient
             services.AddScoped<IEventsProducer, EventsProducer>();
         }
     }

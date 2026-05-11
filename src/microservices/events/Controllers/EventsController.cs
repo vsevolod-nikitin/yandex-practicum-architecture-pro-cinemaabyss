@@ -20,7 +20,7 @@ namespace CinemaAbyss.Events.Controllers
         [HttpPost("movie")]
         public async Task<IActionResult> RegisterMovieEvent([FromBody] MovieEventDto eventDto)
         {
-            var result = await eventsProducer.RegisterAsync(eventDto);
+            var result = await eventsProducer.RegisterMovieEventAsync(eventDto);
             return StatusCode(StatusCodes.Status201Created, result);
         }
 
@@ -32,7 +32,7 @@ namespace CinemaAbyss.Events.Controllers
         [HttpPost("user")]
         public async Task<IActionResult> RegisterUserEvent([FromBody] UserEventDto eventDto)
         {
-            var result = await eventsProducer.RegisterAsync(eventDto);
+            var result = await eventsProducer.RegisterUserEventAsync(eventDto);
             return StatusCode(StatusCodes.Status201Created, result);
         }
 
@@ -44,7 +44,7 @@ namespace CinemaAbyss.Events.Controllers
         [HttpPost("payment")]
         public async Task<IActionResult> RegisterPaymentEvent([FromBody] PaymentEventDto eventDto)
         {
-            var result = await eventsProducer.RegisterAsync(eventDto);
+            var result = await eventsProducer.RegisterPaymentEventAsync(eventDto);
             return StatusCode(StatusCodes.Status201Created, result);
         }
     }
