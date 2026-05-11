@@ -21,7 +21,7 @@ namespace CinemaAbyss.Proxy.Services.Legacy
         /// <inheritdoc/>
         public async Task<MovieDto?> GetMovieByIdAsync(long id)
         {
-            var endpoint = $@"/api/movies/{id}";
+            var endpoint = $@"/api/movies?id={id}";
 
             try
             {

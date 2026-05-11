@@ -26,7 +26,7 @@ namespace CinemaAbyss.Proxy.Controllers
         /// </summary>
         /// <param name="id">Идентификатор фильма.</param>
         /// <returns>Информация о фильме.</returns>
-        [HttpGet("{id}")]
+        [HttpGet("id={id}")]
         public async Task<IActionResult> GetMovieById(long id)
         {
             var movie = await moviesService.GetMovieByIdAsync(id).ConfigureAwait(false);
