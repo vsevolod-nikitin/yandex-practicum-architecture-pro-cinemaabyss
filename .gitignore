@@ -1,3 +1,17 @@
+# C# / Visual Studio
+.vs/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.csproj.user
+*.vbproj.user
+*.vcxproj.user
+*.rsuser
+TestResults/
+packages/
+
 # Go specific
 *.exe
 *.exe~
