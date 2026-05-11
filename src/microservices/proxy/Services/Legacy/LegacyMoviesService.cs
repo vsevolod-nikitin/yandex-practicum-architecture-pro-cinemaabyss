@@ -17,5 +17,31 @@ namespace CinemaAbyss.Proxy.Services.Legacy
 
             return await client.GetFromJsonAsync<MovieDto[]>(endpoint) ?? [];
         }
+
+        /// <inheritdoc/>
+        public async Task<MovieDto?> GetMovieByIdAsync(long id)
+        {
+            var endpoint = $@"/api/movies/{id}";
+
+            try
+            {
+                return await client.GetFromJsonAsync<MovieDto>(endpoint);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<MovieDto> CreateMovieAsync(MovieDto movie)
+        {
+            var endpoint = @"/api/movies";
+
+            var response = await client.PostAsJsonAsync(endpoint, movie).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<MovieDto>().ConfigureAwait(false) ?? throw new InvalidOperationException("Ответ не содержит данных о фильме.");
+        }
     }
 }
