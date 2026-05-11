@@ -34,6 +34,11 @@ namespace CinemaAbyss.Proxy
             app.Run();
         }
 
+        /// <summary>
+        /// Зарегистрировать сервисы для получения фильмов. 
+        /// </summary>
+        /// <param name="services">Функционал построения.</param>
+        /// <param name="configuration">Конфигурация функционала.</param>
         private static void RegisterMoviesService(IServiceCollection services, ServiceConfiguration configuration)
         {
             services.AddHttpClient(nameof(LegacyMoviesService), client =>

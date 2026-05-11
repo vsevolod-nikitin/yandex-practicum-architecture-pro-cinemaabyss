@@ -3,10 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaAbyss.Proxy.Controllers
 {
+    /// <summary>
+    /// Контроллер для получения списка фильмов через прокси-сервис.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class MoviesController(IMoviesService moviesService) : ControllerBase
     {
+        /// <summary>
+        /// Возвращает все фильмы.
+        /// </summary>
         [HttpGet("")]
         public async Task<IActionResult> GetAllMovies()
         {
