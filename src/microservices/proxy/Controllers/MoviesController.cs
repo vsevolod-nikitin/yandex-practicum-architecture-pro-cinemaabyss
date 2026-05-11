@@ -12,24 +12,20 @@ namespace CinemaAbyss.Proxy.Controllers
     public sealed class MoviesController(IMoviesService moviesService) : ControllerBase
     {
         /// <summary>
-        /// Возвращает все фильмы.
-        /// </summary>
-        [HttpGet("")]
-        public async Task<IActionResult> GetAllMovies()
-        {
-            var movies = await moviesService.GetAllMoviesAsync().ConfigureAwait(false);
-            return Ok(movies);
-        }
-
-        /// <summary>
-        /// Получить информацию о фильме по его идентификатору.
+        /// Получить информацию о фильмах.
         /// </summary>
         /// <param name="id">Идентификатор фильма.</param>
-        /// <returns>Информация о фильме.</returns>
-        [HttpGet("id={id}")]
-        public async Task<IActionResult> GetMovieById(long id)
+        /// <returns>Информация о фильмах.</returns>
+        [HttpGet("")]
+        public async Task<IActionResult> GetMovieById([FromQuery] long? id)
         {
-            var movie = await moviesService.GetMovieByIdAsync(id).ConfigureAwait(false);
+            if (!id.HasValue)
+            {
+                var movies = await moviesService.GetAllMoviesAsync().ConfigureAwait(false);
+                return Ok(movies);
+            }
+
+            var movie = await moviesService.GetMovieByIdAsync(id.Value).ConfigureAwait(false);
             if (movie is null)
             {
                 return NotFound();
