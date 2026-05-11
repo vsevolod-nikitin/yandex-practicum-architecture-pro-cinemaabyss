@@ -8,7 +8,7 @@ namespace CinemaAbyss.Proxy.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class MoviesController(IMoviesService moviesService) : ControllerBase
+    public sealed class MoviesController(IMoviesService moviesService) : ControllerBase
     {
         /// <summary>
         /// Возвращает все фильмы.

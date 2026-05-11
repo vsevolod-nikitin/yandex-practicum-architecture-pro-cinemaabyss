@@ -8,7 +8,7 @@ namespace CinemaAbyss.Proxy.Services.Micro
     /// <param name="clientFactory">Фабрика HTTP-клиентов.</param>
     internal sealed class MicroMoviesService(IHttpClientFactory clientFactory) : IMoviesService
     {
-        private readonly HttpClient client = clientFactory.CreateClient(nameof(MicroMoviesService));
+        private readonly HttpClient client = clientFactory.CreateClient(nameof(ServiceType.Micro));
 
         /// <inheritdoc/>
         public async Task<IEnumerable<MovieDto>> GetAllMoviesAsync()

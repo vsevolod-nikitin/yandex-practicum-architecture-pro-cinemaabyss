@@ -20,7 +20,7 @@ namespace CinemaAbyss.Proxy
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
 
-            RegisterMoviesService(builder.Services, configuration);
+            RegisterServices(builder.Services, configuration);
 
             var app = builder.Build();
 
@@ -36,24 +36,29 @@ namespace CinemaAbyss.Proxy
         }
 
         /// <summary>
-        /// Зарегистрировать сервисы для получения фильмов. 
+        /// Зарегистрировать сервисы. 
         /// </summary>
         /// <param name="services">Функционал построения.</param>
         /// <param name="configuration">Конфигурация функционала.</param>
-        private static void RegisterMoviesService(IServiceCollection services, ServiceConfiguration configuration)
+        private static void RegisterServices(IServiceCollection services, ServiceConfiguration configuration)
         {
-            services.AddHttpClient(nameof(LegacyMoviesService), client =>
+            services.AddHttpClient(nameof(ServiceType.Legacy), client =>
             {
                 client.BaseAddress = new Uri(configuration.MonolithUrl);
             });
-            services.AddHttpClient(nameof(MicroMoviesService), client =>
+            services.AddHttpClient(nameof(ServiceType.Micro), client =>
             {
                 client.BaseAddress = new Uri(configuration.MoviesServiceUrl);
             });
 
+            // Фильмы
             services.AddKeyedScoped<IMoviesService, LegacyMoviesService>(ServiceType.Legacy);
             services.AddKeyedScoped<IMoviesService, MicroMoviesService>(ServiceType.Micro);
             services.AddScoped<IMoviesService, MoviesServiceResolver>();
+
+            // Пользователи
+            services.AddKeyedScoped<IUsersService, LegacyUsersService>(ServiceType.Legacy);
+            services.AddScoped<IUsersService, UsersServiceResolver>();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace CinemaAbyss.Proxy.Services.Legacy
     /// <param name="clientFactory">Фабрика HTTP-клиентов.</param>
     internal sealed class LegacyMoviesService(IHttpClientFactory clientFactory) : IMoviesService
     {
-        private readonly HttpClient client = clientFactory.CreateClient(nameof(LegacyMoviesService));
+        private readonly HttpClient client = clientFactory.CreateClient(nameof(ServiceType.Legacy));
 
         /// <inheritdoc/>
         public async Task<IEnumerable<MovieDto>> GetAllMoviesAsync()

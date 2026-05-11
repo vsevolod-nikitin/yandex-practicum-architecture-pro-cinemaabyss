@@ -10,7 +10,7 @@ namespace CinemaAbyss.Proxy.Services.Implementation
         private readonly IMoviesService _moviesService;
 
         public MoviesServiceResolver(
-            IServiceProvider serviceProvider,
+            IServiceProvider services,
             IServiceConfiguration configuration)
         {
             // По умолчанию используем микросервисную реализацию
@@ -24,7 +24,7 @@ namespace CinemaAbyss.Proxy.Services.Implementation
             }
 
             // Получаем нужную реализацию
-            _moviesService = serviceProvider.GetRequiredKeyedService<IMoviesService>(serviceType);
+            _moviesService = services.GetRequiredKeyedService<IMoviesService>(serviceType);
         }
 
         /// <inheritdoc/>
