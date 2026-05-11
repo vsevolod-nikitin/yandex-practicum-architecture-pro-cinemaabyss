@@ -1,3 +1,4 @@
+using CinemaAbyss.Events.Consumers;
 using CinemaAbyss.Events.Implementation;
 using CinemaAbyss.Events.Services;
 using CinemaAbyss.Events.Services.Implementation;
@@ -45,6 +46,11 @@ namespace CinemaAbyss.Events
 
             // Transient
             services.AddScoped<IEventsProducer, EventsProducer>();
+
+            // Подписчики на события
+            services.AddHostedService<MovieEventsConsumer>();
+            services.AddHostedService<UserEventsConsumer>();
+            services.AddHostedService<PaymentEventsConsumer>();
         }
     }
 }

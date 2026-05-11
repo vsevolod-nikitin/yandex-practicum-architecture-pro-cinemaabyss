@@ -10,10 +10,6 @@ namespace CinemaAbyss.Events.Services.Implementation
     /// <param name="messageBroker">Брокер сообщений.</param>
     internal sealed class EventsProducer(IMessageBroker messageBroker) : IEventsProducer
     {
-        private const string MovieTopic = "movie-events";
-        private const string UserTopic = "user-events";
-        private const string PaymentTopic = "payment-events";
-
         /// <inheritdoc/>
         public async Task<EventResponseDto> RegisterMovieEventAsync(MovieEventDto eventDto)
         {
@@ -25,7 +21,7 @@ namespace CinemaAbyss.Events.Services.Implementation
                 Payload = eventDto
             };
 
-            return await PublishEventAsync(MovieTopic, eventInfo).ConfigureAwait(false);
+            return await PublishEventAsync(MessageTopics.Movies, eventInfo).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -39,7 +35,7 @@ namespace CinemaAbyss.Events.Services.Implementation
                 Payload = eventDto
             };
 
-            return await PublishEventAsync(UserTopic, eventInfo).ConfigureAwait(false);
+            return await PublishEventAsync(MessageTopics.Users, eventInfo).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -53,7 +49,7 @@ namespace CinemaAbyss.Events.Services.Implementation
                 Payload = eventDto
             };
 
-            return await PublishEventAsync(PaymentTopic, eventInfo).ConfigureAwait(false);
+            return await PublishEventAsync(MessageTopics.Payments, eventInfo).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -64,7 +60,7 @@ namespace CinemaAbyss.Events.Services.Implementation
         /// <returns>Результат публикации события.</returns>
         private async Task<EventResponseDto> PublishEventAsync(string topic, EventDto eventInfo)
         {
-            using var producer = messageBroker.GetProducer();
+            using var producer = messageBroker.CreateProducer();
 
             var deliveryResult = await producer.ProduceAsync(
                 topic,
