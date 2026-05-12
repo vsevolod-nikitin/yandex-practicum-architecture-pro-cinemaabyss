@@ -16,9 +16,6 @@
         public string MoviesServiceUrl { get; } = GetValue<string>(configuration, "MOVIES_SERVICE_URL");
 
         /// <inheritdoc/>
-        public string EventsServiceUrl { get; } = GetValue<string>(configuration, "EVENTS_SERVICE_URL");
-
-        /// <inheritdoc/>
         public bool IsGradualMigrationEnabled { get; } = GetValue<bool>(configuration, "GRADUAL_MIGRATION");
 
         /// <inheritdoc/>

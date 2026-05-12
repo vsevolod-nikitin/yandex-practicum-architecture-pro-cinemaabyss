@@ -21,11 +21,6 @@
         string MoviesServiceUrl { get; }
 
         /// <summary>
-        /// URL сервиса событий.
-        /// </summary>
-        string EventsServiceUrl { get; }
-
-        /// <summary>
         /// Флаг, указывающий, включена ли постепенная миграция.
         /// </summary>
         bool IsGradualMigrationEnabled { get; }
