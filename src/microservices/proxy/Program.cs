@@ -1,0 +1,64 @@
+using CinemaAbyss.Proxy.Implementation;
+using CinemaAbyss.Proxy.Services;
+using CinemaAbyss.Proxy.Services.Implementation;
+using CinemaAbyss.Proxy.Services.Legacy;
+using CinemaAbyss.Proxy.Services.Micro;
+
+namespace CinemaAbyss.Proxy
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            var configuration = new ServiceConfiguration(builder.Configuration);
+            builder.Services.AddSingleton<IServiceConfiguration>(configuration);
+
+            builder.WebHost.UseUrls($"http://*:{configuration.Port}");
+
+            builder.Services.AddControllers();
+            builder.Services.AddOpenApi();
+
+            RegisterServices(builder.Services, configuration);
+
+            var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+            }
+
+            app.MapGet("/health", () => Results.Ok(new { status = true }));
+            app.MapControllers();
+
+            app.Run();
+        }
+
+        /// <summary>
+        /// Зарегистрировать сервисы. 
+        /// </summary>
+        /// <param name="services">Функционал построения.</param>
+        /// <param name="configuration">Конфигурация функционала.</param>
+        private static void RegisterServices(IServiceCollection services, ServiceConfiguration configuration)
+        {
+            services.AddHttpClient(nameof(ServiceType.Legacy), client =>
+            {
+                client.BaseAddress = new Uri(configuration.MonolithUrl);
+            });
+            services.AddHttpClient(nameof(ServiceType.Micro), client =>
+            {
+                client.BaseAddress = new Uri(configuration.MoviesServiceUrl);
+            });
+
+            // Фильмы
+            services.AddKeyedScoped<IMoviesService, LegacyMoviesService>(ServiceType.Legacy);
+            services.AddKeyedScoped<IMoviesService, MicroMoviesService>(ServiceType.Micro);
+            services.AddScoped<IMoviesService, MoviesServiceResolver>();
+
+            // Пользователи
+            services.AddKeyedScoped<IUsersService, LegacyUsersService>(ServiceType.Legacy);
+            services.AddScoped<IUsersService, UsersServiceResolver>();
+        }
+    }
+}

@@ -1,0 +1,95 @@
+@startuml Containers
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User", "Пользователь системы")
+
+System_Ext(recomendations, "Сервис рекомендаций", "Внешний сервис, который предоставляет рекомендации")
+System_Ext(paymentEndpoints, "Платежные шлюзы", "Внешние платежные шлюзы для обработки платежей")
+System_Ext(externalCinema, "Кинотеатры", "Онлайн-кинотеатры, предоставляющие контент для платформы")
+
+Container(apiGateway, "ApiGateway", "Маршрутизация запросов к соответствующим сервисам")
+
+ContainerQueue(integrationQueue, "Kafka", "Брокер сообщений для обмена данными")
+
+System_Boundary(frontend, "Frontend") {
+    Container(webApp, "Web Application", "Веб-приложение")
+    Container(mobileApp, "Mobile Application", "Мобильное приложение")
+    Container(tvApp, "TV Application", "Приложение для телевизоров")
+}
+
+System_Boundary(customBackends, "Backends for Frontends") {
+    Container(backend, "Backend for Frontend", "Обработка запросов от соответствующего фронтенда")
+    note right of backend
+        Каждый фронтенд имеет свой собственный бэкенд.
+        На схеме для упрощения показан только один бэкенд.
+    end note
+}
+
+System_Boundary(usersDomain, "Пользователи") {
+    Container(usersService, "UsersService", "Управление пользователями и аутентификация")
+    ContainerDb(usersDb, "UsersDB", "PostgreSQL", "Хранение данных пользователей")
+}
+
+System_Boundary(paymentsDomain, "Платежи") {
+    Container(paymentsService, "PaymentsService", "Обработка платежей")
+    ContainerDb(paymentsDb, "PaymentsDB", "PostgreSQL", "Хранение данных о платежах")
+}
+
+System_Boundary(recomendationsDomain, "Рекомендации") {
+    Container(recomendationsService, "RecomendationsService", "Получение рекомендаций для пользователей")
+    ContainerDb(recomendationsDb, "RecomendationsDB", "PostgreSQL", "Хранение данных для рекомендаций")
+}
+
+System_Boundary(metadataDomain, "Метаданные") {
+    Container(metadataService, "MetadataService", "Управление метаданными контента")
+    ContainerDb(metadataDb, "MetadataDB", "PostgreSQL", "Хранение метаданных контента")
+}
+
+System_Boundary(cinemaDomain, "Кинотеатры") {
+    Container(cinemaService, "CinemaService", "Взаимодействие с внешними кинотеатрами для получения контента")
+    ContainerDb(cinemaDb, "CinemaDB", "PostgreSQL", "Хранение данных о кинотеатрах")
+}
+
+System_Boundary(eventsDomain, "Сбор событий") {
+    Container(eventsCollector, "EventsCollector", "Сбор и обработка событий для аналитики")
+    ContainerDb(eventsDb, "EventsDB", "PostgreSQL", "Хранение событий для аналитики")
+}
+
+Rel(user, webApp, "Использует")
+Rel(user, mobileApp, "Использует")
+Rel(user, tvApp, "Использует")
+
+Rel(webApp, apiGateway, "Отправляет запросы к")
+Rel(mobileApp, apiGateway, "Отправляет запросы к")
+Rel(tvApp, apiGateway, "Отправляет запросы к")
+
+Rel(apiGateway, backend, "Маршрутизирует запросы к")
+
+Rel(backend, usersService, "Взаимодействует с")
+Rel(backend, paymentsService, "Взаимодействует с")
+Rel(backend, recomendationsService, "Взаимодействует с")
+Rel(backend, metadataService, "Взаимодействует с")
+Rel(backend, cinemaService, "Взаимодействует с")
+
+Rel(usersService, usersDb, "Читает и записывает данные в")
+Rel(paymentsService, paymentsDb, "Читает и записывает данные в")
+Rel(recomendationsService, recomendationsDb, "Читает и записывает данные в")
+Rel(metadataService, metadataDb, "Читает и записывает данные в")
+Rel(cinemaService, cinemaDb, "Читает и записывает данные в")
+Rel(eventsCollector, eventsDb, "Читает и записывает данные в")
+
+Rel(paymentsService, integrationQueue, "Использует для обмена данными")
+Rel(recomendationsService, integrationQueue, "Использует для обмена данными")
+Rel(usersService, integrationQueue, "Публикует события о пользователях в")
+Rel(metadataService, integrationQueue, "Публикует события об изменении метаданных в")
+Rel(cinemaService, integrationQueue, "Публикует события о кинотеатрах в")
+
+Rel(integrationQueue, recomendations, "Запрашивает рекомендации у")
+Rel(integrationQueue, paymentEndpoints, "Отправляет данные о платежах в")
+Rel(cinemaService, externalCinema, "Запрашивает контент у")
+
+Rel_U(eventsCollector, integrationQueue, "Подписывается на события из")
+
+LAYOUT_TOP_DOWN()
+
+@enduml

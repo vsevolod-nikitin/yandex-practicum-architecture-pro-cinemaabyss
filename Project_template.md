@@ -2,11 +2,9 @@
 
 ## Задание 1
 
-1. Спроектируйте to be архитектуру КиноБездны, разделив всю систему на отдельные домены и организовав интеграционное взаимодействие и единую точку вызова сервисов.
-Результат представьте в виде контейнерной диаграммы в нотации С4.
-Добавьте ссылку на файл в этот шаблон
-[ссылка на файл](ссылка)
+**Диаграмма контейнеров целевой архитектуры**
 
+![Диаграмма контейнеров](schemas/Containers.png)
 
 ## Задание 2
 
@@ -57,7 +55,18 @@
     - Добавьте в docker-compose новый сервис, kafka там уже есть
 
 Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
-Приложите скриншот тестов и скриншот состояния топиков Kafka http://localhost:8090 
+
+**Результаты тестирования**
+
+![Результаты тестирования](images/TestsReport.png)
+
+**Состояние топиков**
+
+![Состояние топиков](images/KafkaSummary.png)
+
+**События фильмов**
+
+![События фильмов](images/MoviesEvents.png)
 
 
 ## Задание 3
@@ -272,7 +281,18 @@ cat .docker/config.json | base64
   Откройте логи event-service и сделайте скриншот обработки событий
 
 #### Шаг 3
-Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
+
+**Тестирование Kubernetes**
+
+![Тестирование Kubernetes](images/KubernetesTestsReport.png)
+
+**Получение списка фильмов**
+
+![Получение списка фильмов](images/GetMoviesOutput.png)
+
+**Лог сервиса событий**
+
+![Лог сервиса событий](images/KubernetesEventsServiceLog.png)
 
 
 ## Задание 4
@@ -345,9 +365,13 @@ kubectl get pods -n cinemaabyss
 minikube tunnel
 ```
 
-Потом вызовите 
-https://cinemaabyss.example.com/api/movies
-и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+**Развертывание Helm**
+
+![Развертывание Helm](images/HelmDeployment.png)
+
+**Получение списка фильмов**
+
+![Получение списка фильмов](images/HelmGetMoviesOutput.png)
 
 
 # Задание 5
@@ -413,7 +437,9 @@ cluster.outbound|8081||movies-service.cinemaabyss.svc.cluster.local;.upstream_rq
 You can see 21 for the upstream_rq_pending_overflow value which means 21 calls so far have been flagged for circuit breaking.
 ```
 
-Приложите скриншот работы circuit breaker'а
+**Circuit breaker (5000 запросов)**
+
+![Circuit breaker](images/IstioCircuitBreaker.png)
 
 Удаляем все
 ```bash
